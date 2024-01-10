@@ -1,4 +1,5 @@
-﻿using JWTAuthLesson.Entities;
+﻿using JWTAuthLesson.AuthenticationFolder;
+using JWTAuthLesson.Entities;
 using JWTAuthLesson.Services.UserServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace JWTAuthLesson.Controllers
 {
     [Route("api/[controller]/[action]")]
+    [HasPermission(Permission.AccessMembers)]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -37,32 +39,12 @@ namespace JWTAuthLesson.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [HasPermission(Permission.ReadMember)]
         [HttpGet]
         public IActionResult GetAdmin()
         {
             return Ok("Bu admin roli");
         }
 
-        [Authorize(Roles = "Manager")]
-        [HttpGet]
-        public IActionResult GetManager()
-        {
-            return Ok("Bu Manager roli");
-        }
-
-        [Authorize(Roles = "Teacher")]
-        [HttpGet]
-        public IActionResult GetTeacher()
-        {
-            return Ok("Bu Teacher roli");
-        }
-
-        [Authorize(Roles = "Teacher,Admin,Student,Dekan")]
-        [HttpGet]
-        public IActionResult Olorilar()
-        {
-            return Ok("Bu Teacher,Admin,Student,Dekan shular uchun mahsus roli");
-        }
     }
 }
